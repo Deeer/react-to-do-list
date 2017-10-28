@@ -12,3 +12,36 @@ npm install react react-dom babel-loader less-loader css-loader style-loader url
 在package.json里面包的版本之前的^表示可以安装类似2.x.x版本的组件但是不能安装3.x.x版本的软件
 在package.json里面包的版本之前的~表示可以安装2.1.x的软件不能安装2.3.x的软件
 
+
+
+#按照这篇来做http://www.jianshu.com/p/4df92c335617
+
+##有些地方还需要改动
+  1.需要全局安装webpack 和 webpack-dev-server
+  >sudo npm install -g webpack-dev-server
+  >sudo npm install -g webpack
+
+  2.babel可能需要重新安装
+    npm uninstall babel --save-dev
+    npm install babel-loader babel-core --save-dev
+    并在webpack.config.js中修改 loader的名称，否则会报错，改为如下：
+>     module: {
+        //loaders加载器
+        loaders: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            }
+        ]
+   3.webpack-dev-server装好后，在webpack.config.js的devServer中去掉colors和process两项，否则会报错
+    报错信息如下：
+>dee >>> webpack-dev-server                                       17-10-28 15:37
+    Invalid configuration object. webpack-dev-server has been initialised using a configuration object that does not match the API schema.
+ -   configuration has an unknown property 'process'. These properties are valid:
+    object { hot?, hotOnly?, lazy?, bonjour?, host?, allowedHosts?, filename?, publicPath?, port?, socket?, watchOptions?, headers?, clientLogLevel?, overlay?, progress?, key?, cert?, ca?, pfx?, pfxPassphrase?, requestCert?, inline?, disableHostCheck?, public?, https?, contentBase?, watchContentBase?, open?, useLocalIp?, openPage?, features?, compress?, proxy?, historyApiFallback?, staticOptions?, setup?, before?, after?, stats?, reporter?, noInfo?, quiet?, serverSideRender?, index?, log?, warn? }
+
+>dee >>> webpack-dev-server                                       17-10-28 15:38
+Invalid configuration object. webpack-dev-server has been initialised using a configuration object that does not match the API schema.
+ - configuration has an unknown property 'colors'. These properties are valid:
+   object { hot?, hotOnly?, lazy?, bonjour?, host?, allowedHosts?, filename?, publicPath?, port?, socket?, watchOptions?, headers?, clientLogLevel?, overlay?, progress?, key?, cert?, ca?, pfx?, pfxPassphrase?, requestCert?, inline?, disableHostCheck?, public?, https?, contentBase?, watchContentBase?, open?, useLocalIp?, openPage?, features?, compress?, proxy?, historyApiFallback?, staticOptions?, setup?, before?, after?, stats?, reporter?, noInfo?, quiet?, serverSideRender?, index?, log?, warn? }
